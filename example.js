@@ -81,19 +81,6 @@ var foods = [
   'Grapefruit',
 ]
 
-var foods = [
-  {
-    name: '11111'
-  },
-  new inquirer.Separator(),
-  {
-    name: '33333'
-  },
-  {
-    name: '55555'
-  }
-]
-
 function searchStates(answers, input) {
   input = input || '';
   return new Promise(function(resolve) {
