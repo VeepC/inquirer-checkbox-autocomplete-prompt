@@ -9,7 +9,6 @@ var figures = require('figures');
 var Base = require('inquirer/lib/prompts/base');
 var Choices = require('inquirer/lib/objects/choices');
 var observe = require('inquirer/lib/utils/events');
-var utils = require('inquirer/lib/utils/readline');
 var Paginator = require('inquirer/lib/utils/paginator');
 var ansiEscapes = require('ansi-escapes');
 var fuzzy = require('fuzzy');
@@ -251,7 +250,6 @@ Prompt.prototype.onDownKey = function () {
   this.selected = (this.selected < len - 1) ? this.selected + 1 : 0;
   this.ensureSelectedInRange();
   this.render();
-  utils.up(this.rl, 2)
 };
 
 Prompt.prototype.onSpaceKey = function () {

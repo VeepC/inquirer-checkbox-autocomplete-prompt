@@ -29,7 +29,7 @@ Change `autocomplete` to whatever you might prefer.
 
 > **Note:** _allowed options written inside square brackets (`[]`) are optional. Others are required._
 
-`type`, `name`, `message`, `choices`, [, `pageSize`, `filter`, `when`, `asyncSource`, `validate`]
+`type`, `name`, `message`, [`choices`, `pageSize`, `filter`, `when`, `asyncSource`, `validate`]
 
 See [inquirer](https://github.com/SBoudrias/Inquirer.js) readme for meaning of all except **asyncSource**.
 
