@@ -1,8 +1,8 @@
 # inquirer-checkbox-autocomplete-checkbox-prompt
 
-[![Greenkeeper badge](https://badges.greenkeeper.io/mokkabonna/inquirer-autocomplete-prompt.svg)](https://greenkeeper.io/)
-
 Autocomplete checkbox prompt for [inquirer](https://github.com/SBoudrias/Inquirer.js). (Inspired by inquirer-autocomplete-prompt)
+
+[![Build Status](https://travis-ci.org/VeepC/inquirer-checkbox-autocomplete-prompt.svg?branch=master)](https://travis-ci.org/VeepC/inquirer-checkbox-autocomplete-prompt) [![codecov](https://codecov.io/gh/VeepC/inquirer-checkbox-autocomplete-prompt/branch/master/graph/badge.svg)](https://codecov.io/gh/VeepC/inquirer-checkbox-autocomplete-prompt)
 
 ## Installation
 

@@ -4,5 +4,8 @@ node_js:
 - 8
 - 9
 before_script:
-- npm install -g istanbul
+- npm install -g istanbul codecov
 
+script:
+  - istanbul cover ./node_modules/mocha/bin/_mocha test/spec --reporter lcovonly -- -R spec
+  - codecov
