@@ -2,7 +2,7 @@
 
 Autocomplete checkbox prompt for [inquirer](https://github.com/SBoudrias/Inquirer.js). (Inspired by inquirer-autocomplete-prompt)
 
-[![Build Status](https://travis-ci.org/VeepC/inquirer-checkbox-autocomplete-prompt.svg?branch=master)](https://travis-ci.org/VeepC/inquirer-checkbox-autocomplete-prompt) [![codecov](https://codecov.io/gh/VeepC/inquirer-checkbox-autocomplete-prompt/branch/master/graph/badge.svg)](https://codecov.io/gh/VeepC/inquirer-checkbox-autocomplete-prompt)
+[![Build Status](https://travis-ci.org/VeepC/inquirer-checkbox-autocomplete-prompt.svg?branch=master)](https://travis-ci.org/VeepC/inquirer-checkbox-autocomplete-prompt) [![codecov](https://codecov.io/gh/VeepC/inquirer-checkbox-autocomplete-prompt/branch/master/graph/badge.svg)](https://codecov.io/gh/VeepC/inquirer-checkbox-autocomplete-prompt) [![Dependency Status](https://img.shields.io/david/veepc/inquirer-checkbox-autocomplete-prompt.svg?style=flat-square)](https://david-dm.org/veepc/inquirer-checkbox-autocomplete-prompt)
 
 ## Installation
 

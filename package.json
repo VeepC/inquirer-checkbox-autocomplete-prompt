@@ -10,7 +10,7 @@
     "ansi-escapes": "^3.0.0",
     "chalk": "^2.0.0",
     "figures": "^2.0.0",
-    "inquirer": "3.2.0",
+    "inquirer": "^3.2.0",
     "util": "^0.10.3"
   },
   "devDependencies": {
@@ -22,7 +22,6 @@
     "jshint": "^2.5.6",
     "lodash": "^4.17.4",
     "mocha": "^4.0.0",
-    "promise": "^8.0.0",
     "sinon": "^3.0.0"
   },
   "scripts": {
