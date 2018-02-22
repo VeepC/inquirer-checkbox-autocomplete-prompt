@@ -11,6 +11,7 @@
     "chalk": "^2.0.0",
     "figures": "^2.0.0",
     "inquirer": "^3.2.0",
+    "lodash": "^4.17.5",
     "util": "^0.10.3"
   },
   "devDependencies": {
@@ -20,7 +21,6 @@
     "istanbul": "^0.4.5",
     "jscs": "^3.0.7",
     "jshint": "^2.5.6",
-    "lodash": "^4.17.4",
     "mocha": "^4.0.0",
     "sinon": "^3.0.0"
   },
