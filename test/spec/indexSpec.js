@@ -149,6 +149,7 @@ describe('inquirer-autocomplete-prompt', function () {
       moveDown();
       moveDown();
       moveDown();
+      moveDown();
       space();
       enter();
       return promiseForAnswer.then(function (answer) {
