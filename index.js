@@ -183,14 +183,15 @@ Prompt.prototype.search = function (searchTerm) {
   self.lastSearchTerm = searchTerm;
 
   if (!self.opt.asyncSource) {
-    var choices = fuzzy.filter(searchTerm || '', self.source.realChoices, {
-      extract: (el) => el.name || el.short || el.value
-    }).map((el) => el.original);
+    var choices = self.source.choices;
 
-    choices = new Choices(choices.filter(function (choice) {
-      return choice.type !== 'separator';
-    }));
-    self.filterChoices = choices
+    if (searchTerm) {
+      choices = fuzzy.filter(searchTerm || '', self.source.realChoices, {
+        extract: (el) => el.name || el.short || el.value
+      }).map((el) => el.original);
+    }
+
+    self.filterChoices = new Choices(choices);
     self.searching = false;
     self.render();
   } else {
@@ -284,9 +285,14 @@ function listRender(selection, choices, pointer) {
   var separatorOffset = 0;
 
   choices.forEach(function (choice, i) {
-    var isSelected = (i - separatorOffset === pointer);
-    output += isSelected ? chalk.cyan(figures.pointer) : ' ';
-    output += ' ' + getCheckbox(getChecked(choice, selection)) + ' ' + choice.name;
+    if (choice.type === 'separator') {
+      output += '  ' + choice.line;
+    } else {
+      var isSelected = (i - separatorOffset === pointer);
+      output += isSelected ? chalk.cyan(figures.pointer) : ' ';
+      output += ' ' + getCheckbox(getChecked(choice, selection)) + ' ' + choice.name;
+    }
+
     output += '\n';
   });
 
