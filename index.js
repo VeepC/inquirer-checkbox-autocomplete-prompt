@@ -32,7 +32,7 @@ function Prompt() {
   }
 
   if (this.opt.choices) {
-    this.source = this.opt.choices.pluck('value')
+    this.source = this.opt.choices;
   }
 
   this.selection = [];
@@ -183,9 +183,10 @@ Prompt.prototype.search = function (searchTerm) {
   self.lastSearchTerm = searchTerm;
 
   if (!self.opt.asyncSource) {
-    var choices = fuzzy.filter(searchTerm || '', self.source).map(function (el) {
-      return el.original;
-    });
+    var choices = fuzzy.filter(searchTerm || '', self.source.realChoices, {
+      extract: (el) => el.name || el.short || el.value
+    }).map((el) => el.original);
+
     choices = new Choices(choices.filter(function (choice) {
       return choice.type !== 'separator';
     }));
@@ -261,7 +262,7 @@ Prompt.prototype.toggleChoice = function (index) {
   var item = this.filterChoices.getChoice(index);
 
   if (item !== undefined) {
-    var checked = _.map(this.selection, 'value').indexOf(item.value) >= 0;
+    var checked = getChecked(item);
 
     if (checked) {
       this.selection = this.selection.filter(v => v.value !== item.value)
@@ -285,11 +286,16 @@ function listRender(selection, choices, pointer) {
   choices.forEach(function (choice, i) {
     var isSelected = (i - separatorOffset === pointer);
     output += isSelected ? chalk.cyan(figures.pointer) : ' ';
-    output += ' ' + getCheckbox(_.map(selection, 'value').indexOf(choice.value) >= 0) + ' ' + choice.name;
+    output += ' ' + getCheckbox(getChecked(choice, selection)) + ' ' + choice.name;
     output += '\n';
   });
 
   return output.replace(/\n$/, '');
+}
+
+function getChecked(item, selection) {
+  selection = selection || this.selection;
+  return item.checked === true || _.map(selection, 'value').indexOf(item.value) >= 0;
 }
 
 /**
