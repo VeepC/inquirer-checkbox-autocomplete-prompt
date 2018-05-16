@@ -185,6 +185,15 @@ Prompt.prototype.search = function (searchTerm) {
   if (!self.opt.asyncSource) {
     var choices = self.source.choices;
 
+    if (self.firstRender) {
+      self.firstRender = false;
+
+      var selection = choices.filter(getChecked);
+      if (selection.length) {
+        self.selection = selection;
+      }
+    }
+
     if (searchTerm) {
       choices = fuzzy.filter(searchTerm || '', self.source.realChoices, {
         extract: (el) => el.name || el.short || el.value
@@ -201,10 +210,27 @@ Prompt.prototype.search = function (searchTerm) {
     return thisPromise.then(function inner(choices) {
       //if another search is triggered before the current search finishes, don't set results
       if (thisPromise !== self.lastPromise) return;
-      choices = new Choices(choices.filter(function (choice) {
-        return choice.type !== 'separator';
-      }));
-      self.filterChoices = choices
+
+      if (self.firstRender) {
+        self.firstRender = false;
+
+        var selection = choices.filter(getChecked);
+        if (selection.length) {
+          self.selection = selection;
+        }
+      }
+
+      if (searchTerm) {
+        choices = fuzzy
+          .filter(searchTerm || '', choices, {
+            extract: (el) => el.name || el.short || el.value
+          })
+          .filter(function (choice) {
+            return choice.type !== 'separator';
+          }).map((el) => el.original);
+      }
+
+      self.filterChoices = new Choices(choices);
       self.searching = false;
       self.render();
     });
