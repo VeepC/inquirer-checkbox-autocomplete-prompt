@@ -262,7 +262,7 @@ Prompt.prototype.onSpaceKey = function () {
 Prompt.prototype.toggleChoice = function (index) {
   var item = this.filterChoices.getChoice(index);
 
-  if (item !== undefined) {
+  if (item !== undefined && item.value) {
     var checked = getChecked(item);
 
     if (checked) {
