@@ -93,7 +93,7 @@ Prompt.prototype._run = function (cb) {
   }).share().takeWhile(dontHaveAnswer).forEach(self.onKeyPress.bind(this));
 
   function dontHaveAnswer() {
-    return !self.answer;
+    return self.status !== 'answered';
   }
 
   //call once at init
