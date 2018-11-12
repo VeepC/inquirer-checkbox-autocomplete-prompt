@@ -1,6 +1,6 @@
 {
   "name": "inquirer-checkbox-autocomplete-prompt",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "An autocomplete prompt plugin for inquirer.",
   "main": "index.js",
   "directories": {
@@ -10,17 +10,17 @@
     "ansi-escapes": "^3.0.0",
     "chalk": "^2.0.0",
     "figures": "^2.0.0",
+    "fuzzy": "^0.1.3",
     "inquirer": "^3.2.0",
+    "lodash": "^4.17.5",
     "util": "^0.10.3"
   },
   "devDependencies": {
     "bluebird": "^3.0.5",
     "chai": "^4.0.1",
-    "fuzzy": "^0.1.3",
     "istanbul": "^0.4.5",
     "jscs": "^3.0.7",
     "jshint": "^2.5.6",
-    "lodash": "^4.17.4",
     "mocha": "^4.0.0",
     "sinon": "^3.0.0"
   },

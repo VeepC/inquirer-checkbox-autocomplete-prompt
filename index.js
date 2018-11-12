@@ -32,7 +32,7 @@ function Prompt() {
   }
 
   if (this.opt.choices) {
-    this.source = this.opt.choices.pluck('value')
+    this.source = this.opt.choices;
   }
 
   this.selection = [];
@@ -93,7 +93,7 @@ Prompt.prototype._run = function (cb) {
   }).share().takeWhile(dontHaveAnswer).forEach(self.onKeyPress.bind(this));
 
   function dontHaveAnswer() {
-    return !self.answer;
+    return self.status !== 'answered';
   }
 
   //call once at init
@@ -183,13 +183,24 @@ Prompt.prototype.search = function (searchTerm) {
   self.lastSearchTerm = searchTerm;
 
   if (!self.opt.asyncSource) {
-    var choices = fuzzy.filter(searchTerm || '', self.source).map(function (el) {
-      return el.original;
-    });
-    choices = new Choices(choices.filter(function (choice) {
-      return choice.type !== 'separator';
-    }));
-    self.filterChoices = choices
+    var choices = self.source.choices;
+
+    if (self.firstRender) {
+      self.firstRender = false;
+
+      var selection = choices.filter(getChecked);
+      if (selection.length) {
+        self.selection = selection;
+      }
+    }
+
+    if (searchTerm) {
+      choices = fuzzy.filter(searchTerm || '', self.source.realChoices, {
+        extract: (el) => el.name || el.short || el.value
+      }).map((el) => el.original);
+    }
+
+    self.filterChoices = new Choices(choices);
     self.searching = false;
     self.render();
   } else {
@@ -199,10 +210,27 @@ Prompt.prototype.search = function (searchTerm) {
     return thisPromise.then(function inner(choices) {
       //if another search is triggered before the current search finishes, don't set results
       if (thisPromise !== self.lastPromise) return;
-      choices = new Choices(choices.filter(function (choice) {
-        return choice.type !== 'separator';
-      }));
-      self.filterChoices = choices
+
+      if (self.firstRender) {
+        self.firstRender = false;
+
+        var selection = choices.filter(getChecked);
+        if (selection.length) {
+          self.selection = selection;
+        }
+      }
+
+      if (searchTerm) {
+        choices = fuzzy
+          .filter(searchTerm || '', choices, {
+            extract: (el) => el.name || el.short || el.value
+          })
+          .filter(function (choice) {
+            return choice.type !== 'separator';
+          }).map((el) => el.original);
+      }
+
+      self.filterChoices = new Choices(choices);
       self.searching = false;
       self.render();
     });
@@ -260,8 +288,8 @@ Prompt.prototype.onSpaceKey = function () {
 Prompt.prototype.toggleChoice = function (index) {
   var item = this.filterChoices.getChoice(index);
 
-  if (item !== undefined) {
-    var checked = _.map(this.selection, 'value').indexOf(item.value) >= 0;
+  if (item !== undefined && item.value) {
+    var checked = getChecked(item);
 
     if (checked) {
       this.selection = this.selection.filter(v => v.value !== item.value)
@@ -283,13 +311,23 @@ function listRender(selection, choices, pointer) {
   var separatorOffset = 0;
 
   choices.forEach(function (choice, i) {
-    var isSelected = (i - separatorOffset === pointer);
-    output += isSelected ? chalk.cyan(figures.pointer) : ' ';
-    output += ' ' + getCheckbox(_.map(selection, 'value').indexOf(choice.value) >= 0) + ' ' + choice.name;
+    if (choice.type === 'separator') {
+      output += '  ' + choice.line;
+    } else {
+      var isSelected = (i - separatorOffset === pointer);
+      output += isSelected ? chalk.cyan(figures.pointer) : ' ';
+      output += ' ' + getCheckbox(getChecked(choice, selection)) + ' ' + choice.name;
+    }
+
     output += '\n';
   });
 
   return output.replace(/\n$/, '');
+}
+
+function getChecked(item, selection) {
+  selection = selection || this.selection;
+  return item.checked === true || _.map(selection, 'value').indexOf(item.value) >= 0;
 }
 
 /**
