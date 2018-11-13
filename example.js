@@ -74,6 +74,7 @@ var states = [
 var foods = [
   'Apple',
   'Orange',
+  new inquirer.Separator(),
   'Banana',
   'Kiwi',
   'Lichi',
@@ -84,25 +85,28 @@ function searchStates(answers, input) {
   input = input || '';
   return new Promise(function(resolve) {
     setTimeout(function() {
-      var fuzzyResult = fuzzy.filter(input, states);
-      resolve(fuzzyResult.map(function(el) {
-        return el.original;
-      }));
+      try {
+        var fuzzyResult = fuzzy.filter(input, states);
+        resolve(fuzzyResult.map(function(el) {
+          return el.original;
+        }));
+      } catch (e) {
+        console.log(e);
+      }
     }, _.random(30, 500));
   });
 }
 
-inquirer.prompt([
-  {
+inquirer.prompt([{
     type: 'autocomplete',
     name: 'fruit',
     message: 'What is your favorite fruit?',
     choices: foods,
     pageSize: 4,
-    validate: function (val) {
-      return val
-        ? true
-        : 'Type something!';
+    validate: function(val) {
+      return val ?
+        true :
+        'Type something!';
     }
   },
 
@@ -111,15 +115,15 @@ inquirer.prompt([
     name: 'state',
     message: 'Select a state to travel from',
     // choices: states,
-    validate: function (answer) {
+    validate: function(answer) {
       if (answer.length < 1) {
         return 'You must choose at least one topping.';
       }
       return true;
     },
     asyncSource: searchStates
-    // default: ['Alaska']
+      // default: ['Alaska']
   }
-]).then(function (answers) {
+]).then(function(answers) {
   console.log(JSON.stringify(answers, null, 2));
 });

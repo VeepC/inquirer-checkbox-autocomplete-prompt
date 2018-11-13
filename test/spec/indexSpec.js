@@ -36,6 +36,7 @@ describe('inquirer-autocomplete-prompt', function () {
 
       promiseForAnswer = getPromiseForAnswer();
       moveDown();
+      moveDown();
       space();
       enter();
 
@@ -168,16 +169,6 @@ describe('inquirer-autocomplete-prompt', function () {
       }).to.throw(/name/);
     });
 
-    it('requires a message', function () {
-      expect(function () {
-        new Prompt({
-          name: 'foo',
-          choices: defaultChoices
-        });
-
-      }).to.throw(/message/);
-    });
-
     it('requires a choices or asyncSource parameter', function () {
       expect(function () {
         new Prompt({
@@ -193,7 +184,7 @@ describe('inquirer-autocomplete-prompt', function () {
   describe('Pass an asyncSource', function () {
 
     beforeEach(function () {
-      defaultChoices = ['foo', new inquirer.Separator(), 'bar', 'bum'];
+      defaultChoices = ['foo', 'bar', 'bum'];
 
       promise = new Promise(function (res, rej) {
         resolve = res;
